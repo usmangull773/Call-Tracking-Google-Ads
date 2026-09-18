@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plumber & Water Heater Call Setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#0b5cab;
+    --blue-d:#084887;
+    --blue-n:#062a4d;
+    --cta:#e23b2a;
+    --cta-h:#c52f20;
+    --ink:#1c2833;
+    --muted:#5c6b7a;
+    --line:#d9e2ea;
+    --bg:#f3f6f9;
+    --card:#ffffff;
+    --wh:#e07a1f;
+    --shadow:0 1px 2px rgba(6,42,77,.05),0 12px 30px rgba(6,42,77,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:"Source Sans 3",Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1060px;margin:0 auto;padding:22px 20px 42px}
+
+  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px}
+  .mark{display:flex;align-items:center;gap:9px;font-weight:800;font-size:15px;color:var(--blue-n);letter-spacing:-.01em}
+  .dot{width:22px;height:22px;border-radius:6px;background:var(--blue);position:relative}
+  .dot::after{content:"";position:absolute;inset:6px 6px auto 6px;height:4px;border-radius:2px;background:#fff}
+  .pill{font-size:12.5px;color:var(--muted);border:1px solid var(--line);background:#fff;padding:6px 12px;border-radius:999px}
+
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:center}
+  .kicker{display:inline-block;font-size:12.5px;font-weight:700;color:var(--blue);background:#e7f0fa;padding:6px 11px;border-radius:999px;margin-bottom:16px;letter-spacing:.2px}
+  h1{font-size:34px;line-height:1.14;font-weight:800;letter-spacing:-.03em;color:var(--blue-n);margin-bottom:14px}
+  .lead{font-size:16px;color:var(--muted);max-width:40ch}
+  .heronote{display:flex;align-items:center;gap:9px;margin-top:20px;font-size:13.5px;color:var(--ink)}
+  .heronote b{font-weight:700}
+  .check{width:18px;height:18px;border-radius:50%;background:#e8f6ee;color:#12a150;display:grid;place-items:center;font-size:11px;flex:none;font-weight:700}
+
+  .stage{display:flex;flex-direction:column;align-items:center;gap:14px}
+  .toggle{display:inline-flex;background:#e5edf4;border-radius:999px;padding:4px;gap:2px}
+  .toggle button{border:0;background:transparent;font:inherit;font-size:13px;font-weight:700;color:var(--muted);padding:8px 16px;border-radius:999px;cursor:pointer;transition:.18s}
+  .toggle button.on{background:#fff;color:var(--blue-n);box-shadow:0 1px 3px rgba(6,42,77,.14)}
+
+  .phone{width:256px;background:#0b1622;border-radius:34px;padding:9px;box-shadow:var(--shadow)}
+  .screen{background:#fff;border-radius:26px;overflow:hidden}
+  .snotch{height:20px;display:flex;justify-content:center}
+  .snotch::before{content:"";width:70px;height:15px;background:#0b1622;border-radius:0 0 11px 11px}
+  .pcap{display:flex;align-items:center;justify-content:space-between;padding:9px 13px 8px;border-bottom:1px solid var(--line)}
+  .pcap .lg{font-weight:800;font-size:15px;color:var(--blue-n);letter-spacing:-.02em}
+  .pcap .lg span{color:var(--blue)}
+  .pcap .hur{font-size:9px;color:var(--muted);text-align:right;line-height:1.3}
+  .pcap .hur b{color:var(--cta);font-weight:800;display:block;font-size:10.5px}
+  .sbody{padding:15px 15px 16px;background:linear-gradient(180deg,#eaf3fb 0%,#fff 60%)}
+  .stitle{font-size:16px;font-weight:800;line-height:1.18;color:var(--blue-n);margin-bottom:10px}
+  .callbtn{display:block;width:100%;background:var(--cta);color:#fff;border:0;border-radius:6px;padding:12px;font:inherit;font-weight:800;font-size:19px;cursor:pointer;letter-spacing:-.01em}
+  .callbtn:hover{background:var(--cta-h)}
+  .subnum{font-size:10.5px;color:var(--muted);text-align:center;margin-top:6px}
+  .strust{display:flex;justify-content:center;gap:5px;flex-wrap:wrap;margin-top:12px}
+  .strust span{font-size:10px;font-weight:700;color:var(--blue-n)}
+  .strust span::before{content:"• ";color:var(--blue)}
+
+  .log{width:256px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 13px}
+  .logtop{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:9px}
+  .counts{display:flex;gap:8px}
+  .cbox{flex:1;border:1px solid var(--line);border-radius:10px;padding:8px 10px;text-align:center}
+  .cbox .n{font-size:19px;font-weight:800;line-height:1}
+  .cbox .l{font-size:10.5px;color:var(--muted);margin-top:3px}
+  .cbox.pl .n{color:var(--blue)}
+  .cbox.wh .n{color:var(--wh)}
+  .feed{margin-top:9px;min-height:16px;font-size:11px;color:var(--muted)}
+  .feed .row{display:flex;align-items:center;gap:6px;padding:2px 0;animation:fade .3s ease}
+  .dotc{width:6px;height:6px;border-radius:50%;flex:none}
+  @keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1}}
+
+  .panel{margin-top:38px;background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+  .tabs{display:flex;gap:4px;padding:8px;background:#e9eff5;border-bottom:1px solid var(--line);overflow-x:auto}
+  .tabs button{flex:1;min-width:130px;border:0;background:transparent;font:inherit;font-weight:700;font-size:14px;color:var(--muted);padding:12px 14px;border-radius:12px;cursor:pointer;white-space:nowrap;transition:.18s}
+  .tabs button.on{background:#fff;color:var(--blue-n);box-shadow:0 1px 4px rgba(6,42,77,.12)}
+  .tabwrap{padding:26px 26px 28px}
+  .tabpane{display:none}
+  .tabpane.on{display:block;animation:fade .25s ease}
+  .tabpane h2{font-size:18px;font-weight:800;color:var(--blue-n);margin-bottom:4px;letter-spacing:-.01em}
+  .tabpane .sub{font-size:14px;color:var(--muted);margin-bottom:20px;max-width:56ch}
+
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .step{border:1px solid var(--line);border-radius:14px;padding:16px 15px;background:#fbfcfe}
+  .snum{width:26px;height:26px;border-radius:8px;background:#e7f0fa;color:var(--blue);font-weight:800;font-size:13px;display:grid;place-items:center;margin-bottom:11px}
+  .step p{font-size:13.5px;color:var(--ink)}
+  .note{margin-top:18px;font-size:13.5px;color:var(--muted);background:#f3f6f9;border-left:3px solid var(--blue);padding:12px 15px;border-radius:0 10px 10px 0}
+
+  .rail{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  .mile{padding:2px 16px 0 0}
+  .mile .tag{font-size:12px;font-weight:800;color:var(--blue);margin-bottom:8px}
+  .mile .bar{height:3px;background:var(--line);border-radius:2px;position:relative;margin-bottom:12px}
+  .mile .bar::before{content:"";position:absolute;left:0;top:0;height:3px;width:42%;background:var(--blue);border-radius:2px}
+  .mile p{font-size:13.5px;color:var(--ink)}
+
+  .why{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .wcard{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:16px;background:#fbfcfe}
+  .wic{width:30px;height:30px;border-radius:9px;background:#e7f0fa;color:var(--blue);display:grid;place-items:center;flex:none;font-weight:700;font-size:14px}
+  .wcard p{font-size:13.5px;color:var(--ink)}
+  .wcard b{font-weight:700}
+
+  .foot{margin-top:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 22px}
+  .foot .a{display:flex;align-items:center;gap:11px}
+  .foot .ic{width:34px;height:34px;border-radius:10px;background:#e8f6ee;color:#12a150;display:grid;place-items:center;flex:none;font-weight:700}
+  .foot .t{font-size:14px;font-weight:700;color:var(--blue-n)}
+  .foot .s{font-size:12.5px;color:var(--muted)}
+  .sig{font-size:12.5px;color:var(--muted)}
+  .sig b{color:var(--ink);font-weight:700}
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr;gap:26px}
+    .lead{max-width:none}
+    h1{font-size:28px}
+    .steps{grid-template-columns:1fr 1fr}
+    .rail{grid-template-columns:1fr 1fr;gap:20px 16px}
+    .why{grid-template-columns:1fr}
+    .stage{order:-1}
+  }
+  @media(max-width:480px){.steps{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="mark"><span class="dot"></span> Call Setup Plan</div>
+    <div class="pill">Manchester &amp; Greater Hartford, CT</div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <span class="kicker">Plumber + Water Heater</span>
+      <h1>Every call tracked, from the first click to your phone.</h1>
+      <p class="lead">Your two pages live, each with its own number, and two Google Ads campaigns for your towns. You see which call came from which service, and every account stays in your name.</p>
+      <div class="heronote"><span class="check">&#10003;</span><span><b>Try it on the right.</b> Pick a service and tap the number to see how the call is logged.</span></div>
+    </div>
+
+    <div class="stage">
+      <div class="toggle" role="group" aria-label="Choose service">
+        <button id="tWh" class="on" onclick="setSvc('wh')">Water Heater</button>
+        <button id="tPl" onclick="setSvc('pl')">Plumbing</button>
+      </div>
+
+      <div class="phone">
+        <div class="screen">
+          <div class="snotch"></div>
+          <div class="pcap">
+            <div class="lg">Pipe<span>Call</span></div>
+            <div class="hur">In a hurry?<b id="mNum">(860) 775-7641</b></div>
+          </div>
+          <div class="sbody">
+            <div class="stitle" id="mTitle">Don't wait to get water heater help</div>
+            <button class="callbtn" onclick="logCall()" id="mBtn">&#128222; (860) 775-7641</button>
+            <div class="subnum">Tap to call. This is a tracking number.</div>
+            <div class="strust"><span>Local &amp; qualified</span><span>Fast by phone</span><span>No commitment</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="log">
+        <div class="logtop"><span>Calls this session</span><span>by source</span></div>
+        <div class="counts">
+          <div class="cbox wh"><div class="n" id="cWh">0</div><div class="l">Water Heater</div></div>
+          <div class="cbox pl"><div class="n" id="cPl">0</div><div class="l">Plumbing</div></div>
+        </div>
+        <div class="feed" id="feed">No calls yet. Tap the number above.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABS -->
+  <section class="panel">
+    <div class="tabs" role="tablist">
+      <button class="on" onclick="setTab(0)">How it works</button>
+      <button onclick="setTab(1)">Live in 7 days</button>
+      <button onclick="setTab(2)">Why it is built this way</button>
+    </div>
+    <div class="tabwrap">
+
+      <div class="tabpane on">
+        <h2>Four steps, one phone call</h2>
+        <p class="sub">Nothing complicated. Here is the path from a search to a call ringing at your shop.</p>
+        <div class="steps">
+          <div class="step"><div class="snum">1</div><p>Someone in your area searches for a plumber or a water heater fix.</p></div>
+          <div class="step"><div class="snum">2</div><p>Your ad sends them to a clean, fast page built for one thing: calling.</p></div>
+          <div class="step"><div class="snum">3</div><p>They tap the number. It is a tracking number, so the source is recorded.</p></div>
+          <div class="step"><div class="snum">4</div><p>The call forwards to your shop, recorded, and tagged plumbing or water heater.</p></div>
+        </div>
+        <div class="note">That tag is the whole point. Plumbing calls and water heater calls stay separate, so you always know what is actually working.</div>
+      </div>
+
+      <div class="tabpane">
+        <h2>Up and running in a week</h2>
+        <p class="sub">A clear path to going live, with the slow step, account verification, started on day one so it never holds things up.</p>
+        <div class="rail">
+          <div class="mile"><div class="tag">Day 1</div><div class="bar"></div><p>Accounts opened in your name and verification started right away.</p></div>
+          <div class="mile"><div class="tag">Day 2 to 3</div><div class="bar"></div><p>Both pages live on URLs that open cleanly on your iPhone.</p></div>
+          <div class="mile"><div class="tag">Day 4 to 5</div><div class="bar"></div><p>Tracking numbers set and forwarding to your shop, calls recorded.</p></div>
+          <div class="mile"><div class="tag">Day 6 to 7</div><div class="bar"></div><p>Both campaigns live for your five towns. The goal is calls.</p></div>
+        </div>
+        <div class="note">A short screen share at the end so you can see tap to call yourself, and pause the ads anytime.</div>
+      </div>
+
+      <div class="tabpane">
+        <h2>The thinking behind the setup</h2>
+        <p class="sub">Small choices that keep this yours, simple, and easy to repeat later.</p>
+        <div class="why">
+          <div class="wcard"><div class="wic">&#8635;</div><p><b>The brand stays independent.</b> The same setup can be cloned for another town or another contractor whenever you want.</p></div>
+          <div class="wcard"><div class="wic">&#128273;</div><p><b>Everything in your name.</b> Your accounts, your billing. You hold the keys the whole time.</p></div>
+          <div class="wcard"><div class="wic">&#128222;</div><p><b>Built for calls, not forms.</b> A homeowner with no hot water calls. So the page points at one big number.</p></div>
+          <div class="wcard"><div class="wic">&#127919;</div><p><b>Tight, local intent.</b> Budget goes to high intent searches in your towns, not broad traffic that wastes spend.</p></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="foot">
+    <div class="a">
+      <div class="ic">&#9200;</div>
+      <div>
+        <div class="t">A short free audit of your current setup, within 24 hours.</div>
+        <div class="s">Have a look before you decide anything.</div>
+      </div>
+    </div>
+    <div class="sig">Prepared by <b>Usman</b></div>
+  </div>
+
+</div>
+
+<script>
+  var svc='wh';
+  var data={
+    wh:{title:"Don't wait to get water heater help", num:'(860) 775-7641'},
+    pl:{title:"Fast, local plumbing help when you need it", num:'(860) 775-7642'}
+  };
+  var counts={pl:0,wh:0};
+
+  function setSvc(s){
+    svc=s;
+    document.getElementById('tWh').classList.toggle('on', s==='wh');
+    document.getElementById('tPl').classList.toggle('on', s==='pl');
+    document.getElementById('mTitle').textContent=data[s].title;
+    document.getElementById('mNum').textContent=data[s].num;
+    document.getElementById('mBtn').innerHTML='&#128222; '+data[s].num;
+  }
+
+  function logCall(){
+    counts[svc]++;
+    document.getElementById('cPl').textContent=counts.pl;
+    document.getElementById('cWh').textContent=counts.wh;
+    var feed=document.getElementById('feed');
+    if(feed.dataset.clean!=='1'){feed.innerHTML='';feed.dataset.clean='1';}
+    var label=svc==='wh'?'Water heater lead':'Plumbing lead';
+    var color=svc==='wh'?'#e07a1f':'#0b5cab';
+    var row=document.createElement('div');
+    row.className='row';
+    row.innerHTML='<span class="dotc" style="background:'+color+'"></span> '+label+' &middot; just now';
+    feed.insertBefore(row,feed.firstChild);
+    while(feed.children.length>3){feed.removeChild(feed.lastChild);}
+  }
+
+  var panes=document.querySelectorAll('.tabpane');
+  var tabbtns=document.querySelectorAll('.tabs button');
+  function setTab(i){
+    panes.forEach(function(p,idx){p.classList.toggle('on',idx===i);});
+    tabbtns.forEach(function(b,idx){b.classList.toggle('on',idx===i);});
+  }
+</script>
+</body>
+</html>
